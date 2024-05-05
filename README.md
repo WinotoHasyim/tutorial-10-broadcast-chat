@@ -24,3 +24,13 @@ Code yang harus di-modify:
 
 
 Karena port pada `client.rs` diubah menjadi `8080`, agar terjalin suatu koneksi antara client dan server maka port pada `server.rs` harus diubah menjadi `8080`. Dengan ini, message akan dikirim oleh salah satu client ke server, dan kemudian server akan mengembalikan message tersebut ke semua client yang terhubung melalui port yang sama.
+
+## Experiment 2.3: Small changes, add IP and Port
+
+![Experiment 2.3: Small changes, add IP and Port](https://i.imgur.com/3Z5YnpT.png)
+
+Changes:
+![Change 1](https://i.imgur.com/J2cQk3F.png)
+![Change 2](https://i.imgur.com/IU0wnPc.png)
+
+Ketika sebuah koneksi baru diterima oleh `TcpListener` di function `main` pada `server.rs`, IP address dan port dari client akan diteruskan sebagai argumen ke function `handle_connection` dengan nama `addr`. `addr` ini bisa dipakai untuk menyertakan IP address dan port dari client ketika memformat message yang dikirim ke client, dan juga ketika memformat message yang diterima dari client sebelum message tersebut dikirim ke semua client yang terhubung pada channel. Ini adalah alasan mengapa perubahan kode hanya dilakukan di `server.rs`

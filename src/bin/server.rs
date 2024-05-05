@@ -13,7 +13,7 @@ async fn handle_connection(
 ) -> Result<(), Box<dyn Error + Send + Sync>> {
 
     ws_stream
-        .send(Message::text("Welcome to chat! Type a message".to_string()))
+        .send(Message::text(format!("Welcome to chat! You are connected from {}. Type a message", addr)))
         .await?;
     let mut bcast_rx = bcast_tx.subscribe();
 
@@ -27,7 +27,7 @@ async fn handle_connection(
                     Some(Ok(msg)) => {
                         if let Some(text) = msg.as_text() {
                             println!("From client {addr:?} {text:?}");
-                            bcast_tx.send(text.into())?;
+                            bcast_tx.send(format!("{} says: {}", addr, text))?;
                         }
                     }
                     Some(Err(err)) => return Err(err.into()),
